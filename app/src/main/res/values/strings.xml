@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ExoPlayer-App</string>
+    <string name="video_item_image">Video Item Image\n</string>
+    <string name="pause_count">Pause Count:</string>
+    <string name="forward_count">Forward Count</string>
+    <string name="backward_count">Backward Count</string>
+</resources>
