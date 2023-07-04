@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="videoItem"
+            type="com.dazn.video_playback.data.VideoItem" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/video_item_image"
                 android:scaleType="centerCrop"
-                android:src="@drawable/video_placeholder_image"
+                android:src="@{videoItem.uri}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +40,7 @@
                 android:layout_marginTop="@dimen/space_16x"
                 android:layout_marginEnd="@dimen/space_8x"
                 android:layout_marginBottom="@dimen/space_16x"
-                android:text="Video title"
+                android:text="@{videoItem.name}"
                 android:textAppearance="?attr/textAppearanceListItem"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
