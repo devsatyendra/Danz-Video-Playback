@@ -18,7 +18,7 @@ data class VideoItem(
 ) : Parcelable
 
 object VideoData {
-    var videos = mutableListOf(
+    var videos = listOf(
         VideoItem(
             "HD (MP4, H264)",
             "https://storage.googleapis.com/wvmedia/clear/h264/tears/tears.mpd"
