@@ -1,5 +1,6 @@
 package com.dazn.video_playback.ui.videolist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -9,7 +10,10 @@ import com.dazn.video_playback.R
 import com.dazn.video_playback.data.UIState
 import com.dazn.video_playback.data.VideoItem
 import com.dazn.video_playback.databinding.ActivityMainBinding
+import com.dazn.video_playback.ui.player.PlayerActivity
+import com.dazn.video_playback.util.SingleEvent
 import com.dazn.video_playback.util.observe
+import com.dazn.video_playback.util.observeEvent
 import com.dazn.video_playback.util.toGone
 import com.dazn.video_playback.util.toVisible
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +33,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun observers() {
         observe(viewModel.videoList, ::handleVideoData)
+        observeEvent(viewModel.openPlayer, ::handleOpenPlayer)
+    }
+
+
+    fun handleOpenPlayer(singleEvent: SingleEvent<VideoItem>) {
+        singleEvent.getContentIfNotHandled()?.let { videoItem ->
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.apply {
+                putExtra(PlayerActivity.VIDEO_ITEM, videoItem)
+            }
+            startActivity(intent)
+        }
     }
 
     fun handleVideoData(uiState: UIState<List<VideoItem>>) {

@@ -9,17 +9,20 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PlayerActivity : AppCompatActivity() {
-   private lateinit var binding: ActivityPlayerBinding
+    private lateinit var binding: ActivityPlayerBinding
+
+    companion object {
+        val VIDEO_ITEM: String = "video_item"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player)
 
-
         observers()
     }
 
     private fun observers() {
-        TODO("Not yet implemented")
     }
+
 }

@@ -25,9 +25,10 @@
                 android:id="@+id/video_item_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/video_item_image"
                 android:scaleType="centerCrop"
-                android:src="@{videoItem.uri}"
+                app:image="@{videoItem.uri}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

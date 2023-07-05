@@ -17,7 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.dazn.video_playback.CustomTestRunner"
     }
 
     buildFeatures{
@@ -39,7 +39,6 @@ android {
     }
 }
 
-def mediaVersion = "1.0.2"
 
 dependencies {
 
@@ -48,6 +47,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    def mediaVersion = "1.0.2"
     //media-3 player
     implementation "androidx.media3:media3-exoplayer:$mediaVersion"
     implementation "androidx.media3:media3-ui:$mediaVersion"
@@ -56,8 +56,8 @@ dependencies {
     //GSON
     implementation 'com.google.code.gson:gson:2.10.1'
 
-    //picasso
-    implementation 'com.squareup.picasso:picasso:2.8'
+    //Glide- image loading
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
 
     //ViewModels delegation extensions for activity
     implementation 'androidx.activity:activity-ktx:1.7.2'
@@ -82,9 +82,20 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    def expressoVersion="3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$expressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$expressoVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$expressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$expressoVersion"
+
     testImplementation "io.mockk:mockk:1.10.5"
     implementation "androidx.arch.core:core-testing:2.2.0"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.44"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.44"
+
+    androidTestImplementation 'org.hamcrest:hamcrest:2.2'
+    androidTestImplementation 'org.hamcrest:hamcrest-library:2.2'
 }
