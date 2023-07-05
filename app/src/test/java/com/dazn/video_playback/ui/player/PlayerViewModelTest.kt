@@ -1,11 +1,9 @@
 package com.dazn.video_playback.ui.player
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.dazn.video_playback.data.DataRepository
 import com.dazn.video_playback.data.VideoData
 import com.dazn.video_playback.data.VideoList
 import com.util.MainCoroutineRule
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -28,7 +26,7 @@ class PlayerViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel= PlayerViewModel()
+        viewModel = PlayerViewModel()
     }
 
     @Test
@@ -60,5 +58,47 @@ class PlayerViewModelTest {
         //verify
         val getPosition = viewModel.videoItemPosition.value
         assertEquals(position, getPosition)
+    }
+
+    @Test
+    fun `test BackwardCount`() {
+        val initialCount = 1
+        viewModel._backwardCount.value = initialCount
+
+        //call
+        viewModel.updateBackwardCount()
+        viewModel.backwardCount.observeForever { }
+
+        //verify
+        val count = viewModel.backwardCount.value
+        assertEquals(initialCount + 1, count)
+    }
+
+    @Test
+    fun `test ForwardCount`() {
+        val initialCount = 1
+        viewModel._forwardCount.value = initialCount
+
+        //call
+        viewModel.updateForwardCount()
+        viewModel.forwardCount.observeForever { }
+
+        //verify
+        val count = viewModel.forwardCount.value
+        assertEquals(initialCount + 1, count)
+    }
+
+    @Test
+    fun `test PauseCount`() {
+        val initialCount = 1
+        viewModel._pauseCount.value = initialCount
+
+        //call
+        viewModel.updatePauseCount()
+        viewModel.pauseCount.observeForever { }
+
+        //verify
+        val count = viewModel.pauseCount.value
+        assertEquals(initialCount + 1, count)
     }
 }

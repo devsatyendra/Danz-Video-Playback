@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "795070817987",
+    "project_id": "danzvideoplayback",
+    "storage_bucket": "danzvideoplayback.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:795070817987:android:960f88a242b929786be476",
+        "android_client_info": {
+          "package_name": "com.dazn.video_playback"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "795070817987-2rpeuv4ih7shsc9mf2pvnb99b7c5om0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaroiFCcfgGbLN3EaYInM9wxPpuGUiuW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "795070817987-2rpeuv4ih7shsc9mf2pvnb99b7c5om0e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

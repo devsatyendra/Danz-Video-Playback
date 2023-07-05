@@ -19,7 +19,10 @@ import com.dazn.video_playback.R
 import com.dazn.video_playback.data.VideoItem
 import com.dazn.video_playback.databinding.ActivityPlayerBinding
 import com.dazn.video_playback.util.observe
-import com.dazn.video_playback.util.wrapEspressoIdlingResource
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "PlayerActivity"
@@ -28,6 +31,7 @@ private const val TAG = "PlayerActivity"
 class PlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPlayerBinding
     private val viewModel by viewModels<PlayerViewModel>()
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     private val playbackStateListener: Player.Listener = playbackStateListener()
     private var player: Player? = null
@@ -45,6 +49,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player)
+        firebaseAnalytics = Firebase.analytics
         viewModel.initIntentData(
             intent.getParcelableExtra(VIDEO_LIST)!!,
             intent.getIntExtra(VIDEO_POSITION, 0)
@@ -56,6 +61,21 @@ class PlayerActivity : AppCompatActivity() {
     private fun observers() {
         observe(viewModel.videosList, ::handleVideoList)
         observe(viewModel.videoItemPosition, ::updateUI)
+        observe(viewModel.forwardCount, ::handleForwardCountUpdate)
+        observe(viewModel.backwardCount, ::handleBackwardCountUpdate)
+        observe(viewModel.pauseCount, ::handlePauseCountUpdate)
+    }
+
+    private fun handleBackwardCountUpdate(count: Int) {
+        binding.txtBackwardCount?.text = count.toString()
+    }
+
+    private fun handlePauseCountUpdate(count: Int) {
+        binding.txtPauseCount?.text = count.toString()
+    }
+
+    private fun handleForwardCountUpdate(count: Int) {
+        binding.txtForwardCount?.text = count.toString()
     }
 
     private fun handleVideoList(videos: List<VideoItem>) {
@@ -65,14 +85,14 @@ class PlayerActivity : AppCompatActivity() {
     private fun updateUI(position: Int) {
         this.mediaItemIndex = position
         if (player == null && Build.VERSION.SDK_INT > 23 && ::videoList.isInitialized)
-                initializePlayer()
+            initializePlayer()
         binding.videoItem = videoList.get(position)
     }
 
     public override fun onStart() {
         super.onStart()
         if (Build.VERSION.SDK_INT > 23 && ::videoList.isInitialized)
-                initializePlayer()
+            initializePlayer()
     }
 
     public override fun onResume() {
@@ -80,7 +100,7 @@ class PlayerActivity : AppCompatActivity() {
         if (::videoList.isInitialized) {
             hideSystemUi()
             if (Build.VERSION.SDK_INT <= 23 || player == null)
-                    initializePlayer()
+                initializePlayer()
 
         }
     }
@@ -166,13 +186,37 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         override fun onIsPlayingChanged(isPlaying: Boolean) {
-            if (!isPlaying)
-                Log.d(TAG, "pause")
+            if (!isPlaying) {
+                viewModel.updatePauseCount()
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                    param(FirebaseAnalytics.Param.ITEM_ID, 1)
+                    param(FirebaseAnalytics.Param.ITEM_NAME, "Pause Event")
+                    param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
+                }
+            }
         }
 
         override fun onTracksChanged(tracks: Tracks) {
             super.onTracksChanged(tracks)
+            player?.currentMediaItemIndex?.let {
+                if (it > mediaItemIndex) {
+                    viewModel.updateForwardCount()
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                        param(FirebaseAnalytics.Param.ITEM_ID, 2)
+                        param(FirebaseAnalytics.Param.ITEM_NAME, "Forward Event")
+                        param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
+                    }
+                } else {
+                    viewModel.updateBackwardCount()
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+                        param(FirebaseAnalytics.Param.ITEM_ID, 3)
+                        param(FirebaseAnalytics.Param.ITEM_NAME, "Backward Event")
+                        param(FirebaseAnalytics.Param.CONTENT_TYPE, "text")
+                    }
+                }
+            }
             player?.currentMediaItemIndex?.let { viewModel.onTracksChanged(it) }
         }
     }
+
 }
