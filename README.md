@@ -1,5 +1,5 @@
-# danz-video-playback
-Danz Video Playback Assignment App 
+# dazn-video-playback
+DAZN Video Playback Assignment App 
 
 <b>Programming languages</b> - Kotlin<br>
 <b>Presentation Architecture</b> - Clean Architecture<br>
