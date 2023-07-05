@@ -1,4 +1,10 @@
 # danz-video-playback
 Danz Video Playback Assignment App 
 
-I've used views instead of jetpack compose as right now I don't have working experience in jetpack compose.
+<b>Programming languages</b> - Kotlin<br>
+<b>Presentation Architecture</b> - Clean Architecture<br>
+<b>Player interface</b> - Media3 ExoPlayer<br>
+<b>DI</b> - Dagger Hilt<br>
+<b>Networking</b> - Retrofit<br>
+<b>Unit Testing</b> - JUnit, Expresso, Mockk<br>
+<b>Others</b> - Gson, Glide, Firebase Analytics, LiveData, Flow<br>
