@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.dazn.video_playback.R
 import com.dazn.video_playback.data.UIState
 import com.dazn.video_playback.data.VideoItem
+import com.dazn.video_playback.data.VideoList
 import com.dazn.video_playback.databinding.ActivityMainBinding
 import com.dazn.video_playback.ui.player.PlayerActivity
 import com.dazn.video_playback.util.SingleEvent
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel by viewModels<VideoListViewModel>()
     private lateinit var adapter: VideoListAdapter
+    private lateinit var videosList: List<VideoItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +39,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun handleOpenPlayer(singleEvent: SingleEvent<VideoItem>) {
-        singleEvent.getContentIfNotHandled()?.let { videoItem ->
+    fun handleOpenPlayer(singleEvent: SingleEvent<Int>) {
+        singleEvent.getContentIfNotHandled()?.let { position ->
             val intent = Intent(this, PlayerActivity::class.java)
             intent.apply {
-                putExtra(PlayerActivity.VIDEO_ITEM, videoItem)
+                putExtra(PlayerActivity.VIDEO_POSITION, position)
+                putExtra(PlayerActivity.VIDEO_LIST, VideoList(videosList))
             }
             startActivity(intent)
         }
@@ -59,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun bindListData(videos: List<VideoItem>) {
         if (!videos.isNullOrEmpty()) {
+            videosList = videos
             adapter = VideoListAdapter(viewModel, videos)
             binding.rvVideos.adapter = adapter
             showData(true)

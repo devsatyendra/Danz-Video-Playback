@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class VideoList(val list: List<VideoItem>) : Parcelable
+data class VideoList(var list: List<VideoItem>) : Parcelable
 
 @Parcelize
 data class VideoItem(

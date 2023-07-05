@@ -13,10 +13,9 @@ class VideoListAdapter(
     RecyclerView.Adapter<VideoViewHolder>() {
 
     private val onItemClickListener: RecyclerItemListener = object : RecyclerItemListener {
-        override fun onItemClickListener(videoItem: VideoItem) {
-            viewModel.openPlayerActivity(videoItem)
+        override fun onItemClickListener(position: Int) {
+            viewModel.openPlayerActivity(position)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
@@ -30,21 +29,21 @@ class VideoListAdapter(
     }
 
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-        holder.bind(onItemClickListener, videos.get(position))
+        holder.bind(onItemClickListener, videos.get(position), position)
     }
 
 }
 
 class VideoViewHolder(val binding: ListItemVideoBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(recyclerItemListener: RecyclerItemListener, videoItem: VideoItem) {
+    fun bind(recyclerItemListener: RecyclerItemListener, videoItem: VideoItem, position: Int) {
         binding.videoItem = videoItem
         binding.root.setOnClickListener {
-            recyclerItemListener.onItemClickListener(videoItem)
+            recyclerItemListener.onItemClickListener(position)
         }
     }
 
 }
 
 interface RecyclerItemListener {
-    fun onItemClickListener(videoItem: VideoItem)
+    fun onItemClickListener(position: Int)
 }

@@ -21,8 +21,8 @@ class VideoListViewModel @Inject constructor(
     private val _videoList = MutableLiveData<UIState<List<VideoItem>>>()
     val videoList: LiveData<UIState<List<VideoItem>>> get() = _videoList
 
-    private val _openPlayer = MutableLiveData<SingleEvent<VideoItem>>()
-    val openPlayer: LiveData<SingleEvent<VideoItem>> get() = _openPlayer
+    private val _openPlayer = MutableLiveData<SingleEvent<Int>>()
+    val openPlayer: LiveData<SingleEvent<Int>> get() = _openPlayer
 
     init {
         _videoList.value = UIState.Loading()
@@ -35,8 +35,8 @@ class VideoListViewModel @Inject constructor(
         }
     }
 
-    fun openPlayerActivity(videoItem: VideoItem) {
-        _openPlayer.value = SingleEvent(videoItem)
+    fun openPlayerActivity(position: Int) {
+        _openPlayer.value = SingleEvent(position)
     }
 
 }
